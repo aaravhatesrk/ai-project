@@ -1,5 +1,10 @@
 music = music.mp3;
-music2 = music2.mp3
+music2 = music2.mp3;
+
+leftWristy=0;
+leftWristx=0;
+rightWristy=0;
+rightWristx=0;
 
 function setup(){
     canvas = createCanvas(600, 500);
@@ -7,6 +12,25 @@ function setup(){
 
     video = createCapture(VIDEO);
     video.hide();
+
+    poseNet=ml5.poseNet(video, modelLoaded);
+    poseNet.on('pose', gotPoses);
+}
+
+function modelLoaded(){
+    console.log('PoseNet is initialised')
+}
+
+function gotPoses(results){
+    if(results.length = 0){
+        rightWristx = results[0].pose.rightWrist.x;
+        rightWristy = results[0].pose.rightWrist.y;
+        console.log("rightWristx = " + rightWristx + "rightWristy = " + rightWristy);
+
+        leftWristx = results[0].pose.leftWrist.x;
+        leftWristy = results[0].pose.leftWrist.y;
+        console.log("leftWristx = " + leftWristx + "leftWristy = " + leftWristy);
+    }
 }
 
 function draw(){
